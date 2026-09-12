@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+  <defs>
+    <linearGradient id="bg4" x1="0" x2="1">
+      <stop offset="0%" stop-color="#070b12"/>
+      <stop offset="100%" stop-color="#101923"/>
+    </linearGradient>
+  </defs>
+  <rect width="1280" height="720" fill="url(#bg4)"/>
+
+  <g font-family="Verdana" fill="#dfeaf1">
+    <rect x="180" y="100" width="920" height="520" rx="26" fill="#10171d" stroke="#00f5d4" stroke-width="3"/>
+    <text x="640" y="60" text-anchor="middle" font-size="28" font-weight="700" fill="#00f5d4">BRAINLOADING Workflow</text>
+
+    <g fill="#0d131a" stroke="#00f5d4" stroke-width="2">
+      <rect x="235" y="140" width="160" height="50" rx="12"/>
+      <rect x="430" y="140" width="180" height="50" rx="12"/>
+      <rect x="640" y="140" width="200" height="50" rx="12"/>
+      <rect x="870" y="140" width="170" height="50" rx="12"/>
+      <rect x="310" y="310" width="200" height="50" rx="12"/>
+      <rect x="530" y="310" width="210" height="50" rx="12"/>
+      <rect x="770" y="310" width="175" height="50" rx="12"/>
+    </g>
+
+    <g font-size="18" fill="#dfeaf1">
+      <text x="315" y="172" text-anchor="middle">User Question</text>
+      <text x="520" y="172" text-anchor="middle">AI Starts</text>
+      <text x="740" y="172" text-anchor="middle">Matrix Loading</text>
+      <text x="955" y="172" text-anchor="middle">Overthinking</text>
+      <text x="410" y="342" text-anchor="middle">Failure</text>
+      <text x="635" y="342" text-anchor="middle">Error Message</text>
+      <text x="857" y="342" text-anchor="middle">Emoji Burst</text>
+    </g>
+
+    <g stroke="#00f5d4" stroke-width="3" fill="none">
+      <line x1="395" y1="165" x2="430" y2="165"/>
+      <line x1="610" y1="165" x2="640" y2="165"/>
+      <line x1="840" y1="165" x2="870" y2="165"/>
+      <line x1="370" y1="250" x2="370" y2="310"/>
+      <line x1="515" y1="250" x2="515" y2="310"/>
+      <line x1="740" y1="250" x2="740" y2="310"/>
+      <line x1="510" y1="335" x2="530" y2="335"/>
+      <line x1="740" y1="335" x2="770" y2="335"/>
+    </g>
+
+    <g fill="#00f5d4" font-size="22" font-weight="700">
+      <text x="640" y="270" text-anchor="middle">↓</text>
+      <text x="640" y="400" text-anchor="middle">↓</text>
+    </g>
+  </g>
+</svg>

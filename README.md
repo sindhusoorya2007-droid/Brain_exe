@@ -91,20 +91,20 @@ Then visit the local URL in your browser.
 ### Screenshots
 
 #### Screenshot 1 — Main Interface
-![Screenshot 1 — Main Interface](add-screenshot-1-here.png)
+![Screenshot 1 — Main Interface](docs/screenshots/brainloading-main-interface.svg)
 *The main BRAINLOADING interface where the user enters a question and initiates the AI chaos.*
 
 #### Screenshot 2 — AI Overthinking
-![Screenshot 2 — AI Overthinking](add-screenshot-2-here.png)
+![Screenshot 2 — AI Overthinking](docs/screenshots/brainloading-thinking-state.svg)
 *The Matrix-style loading experience showing the AI pretending to think deeply about something completely trivial.*
 
 #### Screenshot 3 — AI Crash
-![Screenshot 3 — AI Crash](add-screenshot-3-here.png)
+![Screenshot 3 — AI Crash](docs/screenshots/brainloading-crash-state.svg)
 *The final fake system failure, witty error message, and chaotic emoji burst that ends the experience.*
 
 ### Workflow Diagram
 
-![Workflow Diagram](add-workflow-diagram-here.png)
+![Workflow Diagram](docs/diagrams/brainloading-workflow.svg)
 
 ```text
 User Question
