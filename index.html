@@ -1,1 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brain.exe - Ultimate Useless AI</title>
+    <!-- Google Font for Funny/Readable Style -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Courier+Prime:wght@700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #0d0d0d;
+            font-family: 'Fredoka', sans-serif;
+            color: #00ffcc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
 
+        /* Matrix Canvas Background */
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.35;
+        }
+
+        /* Pulsing Neon Glow Border Animation */
+        @keyframes neonPulse {
+            0% {
+                border-color: #00ffcc;
+                box-shadow: 0 0 15px rgba(0, 255, 204, 0.4), inset 0 0 10px rgba(0, 255, 204, 0.2);
+            }
+            50% {
+                border-color: #ff0055;
+                box-shadow: 0 0 35px rgba(255, 0, 85, 0.7), inset 0 0 20px rgba(255, 0, 85, 0.4);
+            }
+            100% {
+                border-color: #00ffcc;
+                box-shadow: 0 0 15px rgba(0, 255, 204, 0.4), inset 0 0 10px rgba(0, 255, 204, 0.2);
+            }
+        }
+
+        .container {
+            background: rgba(15, 15, 15, 0.95);
+            border: 3px solid #00ffcc;
+            padding: 35px;
+            border-radius: 20px;
+            text-align: center;
+            width: 450px;
+            z-index: 10;
+            animation: neonPulse 3s infinite ease-in-out;
+            transition: 0.3s;
+            position: relative;
+        }
+
+        /* Settings Gear Icon */
+        .settings-icon {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: #888;
+            font-size: 20px;
+            cursor: pointer;
+            box-shadow: none;
+            padding: 0;
+            transition: 0.2s;
+        }
+
+        .settings-icon:hover {
+            color: #00ffcc;
+            background: none;
+            box-shadow: none;
+        }
+
+        /* Settings Drawer */
+        .settings-drawer {
+            display: none;
+            background: rgba(25, 25, 25, 0.98);
+            border: 1px dashed #00ffcc;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .settings-drawer h3 {
+            margin: 0 0 10px 0;
+            font-size: 15px;
+            color: #ffcc00;
+        }
+
+        .settings-drawer input {
+            width: 100%;
+            padding: 8px;
+            background: #111;
+            border: 1px solid #444;
+            color: #fff;
+            border-radius: 6px;
+            font-size: 13px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+
+        .settings-drawer button {
+            padding: 6px 12px;
+            font-size: 13px;
+            width: 100%;
+        }
+
+        /* Brain Animation Box */
+        .brain-box {
+            font-size: 60px;
+            margin-bottom: 10px;
+            height: 70px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        @keyframes crazyShake {
+            0% { transform: translate(0, 0) rotate(0deg) scale(1); }
+            20% { transform: translate(-5px, 5px) rotate(-10deg) scale(1.2); }
+            40% { transform: translate(5px, -5px) rotate(10deg) scale(0.9); }
+            60% { transform: translate(-5px, -5px) rotate(-15deg) scale(1.1); }
+            80% { transform: translate(5px, 5px) rotate(15deg) scale(1.25); }
+            100% { transform: translate(0, 0) rotate(0deg) scale(1); }
+        }
+
+        .animating {
+            animation: crazyShake 0.6s infinite ease-in-out;
+        }
+
+        /* Shock / Reboot Flash Effect */
+        @keyframes shockFlash {
+            0% { background-color: #ff0055; transform: scale(1.05) rotate(2deg); }
+            50% { background-color: #00ffcc; transform: scale(0.95) rotate(-2deg); }
+            100% { background-color: rgba(15, 15, 15, 0.95); transform: scale(1) rotate(0); }
+        }
+
+        .shock-effect {
+            animation: shockFlash 0.5s ease-in-out;
+        }
+
+        /* Corrupted AI Glitch Heading Effect */
+        .glitch {
+            font-family: 'Courier Prime', monospace;
+            color: #00ffcc;
+            margin: 0 0 5px 0;
+            font-size: 28px;
+            position: relative;
+            display: inline-block;
+            text-shadow: 0 0 10px rgba(0,255,204,0.5);
+        }
+
+        .glitch::before, .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            clip: rect(0, 0, 0, 0);
+        }
+
+        .glitch::before {
+            left: 2px;
+            text-shadow: -2px 0 #ff0055;
+            animation: glitchAnim2 2s infinite linear alternate-reverse;
+        }
+
+        .glitch::after {
+            left: -2px;
+            text-shadow: -2px 0 #00ffff;
+            animation: glitchAnim1 1.5s infinite linear alternate-reverse;
+        }
+
+        @keyframes glitchAnim1 {
+            0% { clip: rect(20px, 9999px, 44px, 0); }
+            20% { clip: rect(5px, 9999px, 80px, 0); }
+            40% { clip: rect(40px, 9999px, 10px, 0); }
+            60% { clip: rect(60px, 9999px, 95px, 0); }
+            80% { clip: rect(10px, 9999px, 50px, 0); }
+            100% { clip: rect(30px, 9999px, 70px, 0); }
+        }
+
+        @keyframes glitchAnim2 {
+            0% { clip: rect(10px, 9999px, 60px, 0); }
+            20% { clip: rect(50px, 9999px, 20px, 0); }
+            40% { clip: rect(5px, 9999px, 90px, 0); }
+            60% { clip: rect(35px, 9999px, 15px, 0); }
+            80% { clip: rect(70px, 9999px, 40px, 0); }
+            100% { clip: rect(15px, 9999px, 85px, 0); }
+        }
+
+        p.subtitle {
+            color: #888;
+            font-size: 13px;
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"], input[type="password"] {
+            flex: 1;
+            padding: 12px;
+            background-color: #1a1a1a;
+            border: 1px solid #00ffcc;
+            color: #fff;
+            border-radius: 8px;
+            font-size: 15px;
+            font-family: 'Fredoka', sans-serif;
+            outline: none;
+        }
+
+        input[type="text"]::placeholder {
+            color: #555;
+        }
+
+        button {
+            background-color: #00ffcc;
+            color: #0d0d0d;
+            border: none;
+            padding: 12px 22px;
+            font-size: 15px;
+            font-family: 'Fredoka', sans-serif;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 0 10px rgba(0,255,204,0.3);
+        }
+
+        button:hover {
+            background-color: #00b386;
+            box-shadow: 0 0 15px rgba(0,255,204,0.6);
+        }
+
+        /* Emergency Reboot Button Style */
+        .reboot-btn {
+            background-color: #ff0055;
+            color: #fff;
+            margin-top: 15px;
+            width: 100%;
+            display: none;
+            box-shadow: 0 0 12px rgba(255, 0, 85, 0.5);
+        }
+
+        .reboot-btn:hover {
+            background-color: #cc0044;
+            box-shadow: 0 0 20px rgba(255, 0, 85, 0.8);
+        }
+
+        .progress-container {
+            width: 100%;
+            background-color: #222;
+            border: 1px solid #444;
+            border-radius: 8px;
+            margin-top: 20px;
+            overflow: hidden;
+            display: none;
+        }
+
+        .progress-bar {
+            width: 0%;
+            height: 24px;
+            background: linear-gradient(90deg, #00b386, #00ffcc);
+            text-align: center;
+            line-height: 24px;
+            color: #0d0d0d;
+            font-weight: bold;
+            font-size: 13px;
+            font-family: 'Courier Prime', monospace;
+            transition: width 0.1s linear;
+        }
+
+        #status {
+            margin-top: 15px;
+            font-size: 15px;
+            font-weight: 600;
+            color: #ffcc00;
+            min-height: 65px;
+        }
+
+        .error-box {
+            color: #ff4d4d;
+            font-size: 16px;
+            text-shadow: 0 0 8px rgba(255, 77, 77, 0.4);
+        }
+
+        .wrong-answer {
+            font-family: 'Fredoka', sans-serif;
+            color: #ffcc00;
+            font-size: 16px;
+            font-weight: 600;
+            background: rgba(255, 204, 0, 0.1);
+            border: 2px dashed #ffcc00;
+            padding: 12px;
+            border-radius: 10px;
+            margin-top: 10px;
+            text-shadow: 0 0 8px rgba(255, 204, 0, 0.5);
+            line-height: 1.4;
+            text-align: left;
+        }
+
+        /* Floating Emoji Burst Animation */
+        .burst-emoji {
+            position: fixed;
+            font-size: 30px;
+            z-index: 999;
+            pointer-events: none;
+            animation: burstFly 1.5s ease-out forwards;
+        }
+
+        @keyframes burstFly {
+            0% {
+                transform: translate(0, 0) scale(0.5);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--tx), var(--ty)) scale(1.5) rotate(360deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="matrixCanvas"></canvas>
+
+    <div class="container" id="mainContainer">
+        <!-- Gear Settings Button -->
+        <button class="settings-icon" onclick="toggleSettings()" title="API Settings">⚙️</button>
+
+        <!-- Settings Drawer Panel -->
+        <div class="settings-drawer" id="settingsDrawer">
+            <h3>🔑 API Configuration</h3>
+            <input type="password" id="apiKeyInput" placeholder="Enter Gemini API Key...">
+            <button onclick="saveApiKey()">Save Key</button>
+        </div>
+
+        <div class="brain-box" id="brainEmoji">🧠</div>
+        <h1 class="glitch" data-text="Brain.exe">Brain.exe</h1>
+        <p class="subtitle">AI That Thinks Too Much & Fails Beautifully!</p>
+        
+        <div class="input-group" id="inputSection">
+            <input type="text" id="userQuery" placeholder="Ask any question..." onkeydown="if(event.key === 'Enter') processQuestion()">
+            <button id="startBtn" onclick="processQuestion()">Search</button>
+        </div>
+        
+        <div class="progress-container" id="progressContainer">
+            <div class="progress-bar" id="progressBar">0%</div>
+        </div>
+        
+        <div id="status"></div>
+
+        <!-- Emergency Reboot Button -->
+        <button class="reboot-btn" id="rebootBtn" onclick="emergencyReboot()">⚡ Emergency Shock Reboot</button>
+    </div>
+
+    <script>
+        const DEFAULT_GEMINI_API_KEY = 'AQ.Ab8RN6KJHf9gvH0tqjSkcBH8bSq1aK1cI0ILTa349vXX2Lh4PA';
+
+        /* Load Saved API Key on Startup */
+        window.onload = function() {
+            const savedKey = localStorage.getItem('brain_exe_api_key');
+            if (savedKey) {
+                document.getElementById('apiKeyInput').value = savedKey;
+            }
+        };
+
+        function toggleSettings() {
+            const drawer = document.getElementById('settingsDrawer');
+            drawer.style.display = drawer.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function saveApiKey() {
+            const key = document.getElementById('apiKeyInput').value.trim();
+            localStorage.setItem('brain_exe_api_key', key);
+            alert("API Key saved securely in browser storage! 💾");
+            toggleSettings();
+        }
+
+        async function loadGeminiKey() {
+            const savedKey = localStorage.getItem('brain_exe_api_key');
+            if (savedKey && savedKey.trim()) {
+                return savedKey.trim();
+            }
+
+            try {
+                const response = await fetch('./.env', { cache: 'no-store' });
+                if (response.ok) {
+                    const text = await response.text();
+                    const match = text.match(/^\s*GEMINI_API_KEY\s*=\s*(.+?)\s*$/m);
+                    if (match) {
+                        const key = match[1].replace(/^['"]|['"]$/g, '').trim();
+                        if (key) return key;
+                    }
+                }
+            } catch (error) {
+                console.warn('Could not read .env; using fallback key.', error);
+            }
+
+            return DEFAULT_GEMINI_API_KEY;
+        }
+
+        /* Rainbow Matrix Raining Code Effect */
+        const canvas = document.getElementById('matrixCanvas');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const katakana = 'アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン';
+        const latin = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()*&';
+        const alphabet = katakana + latin;
+
+        const fontSize = 16;
+        const columns = Math.floor(canvas.width / fontSize);
+        const rainDrops = [];
+
+        for (let x = 0; x < columns; x++) {
+            rainDrops[x] = 1;
+        }
+
+        function drawMatrix() {
+            ctx.fillStyle = 'rgba(13, 13, 13, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.font = fontSize + 'px monospace';
+
+            for (let i = 0; i < rainDrops.length; i++) {
+                const text = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
+                
+                const hue = (i * 10 + Date.now() / 20) % 360;
+                ctx.fillStyle = `hsl(${hue}, 100%, 50%)`;
+                
+                ctx.fillText(text, i * fontSize, rainDrops[i] * fontSize);
+
+                if (rainDrops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    rainDrops[i] = 0;
+                }
+                rainDrops[i]++;
+            }
+        }
+        setInterval(drawMatrix, 30);
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        // Emoji Burst Function when 100% is reached
+        function triggerEmojiBurst() {
+            const emojis = ["😂", "💀", "🤡", "🥔", "💥", "💩", "🚀", "🤦‍♂️"];
+            const containerRect = document.querySelector('.container').getBoundingClientRect();
+            const originX = containerRect.left + containerRect.width / 2;
+            const originY = containerRect.top + containerRect.height / 2;
+
+            for (let i = 0; i < 30; i++) {
+                const span = document.createElement('div');
+                span.classList.add('burst-emoji');
+                span.innerHTML = emojis[Math.floor(Math.random() * emojis.length)];
+                
+                span.style.left = originX + 'px';
+                span.style.top = originY + 'px';
+
+                const angle = Math.random() * Math.PI * 2;
+                const distance = 150 + Math.random() * 250;
+                const tx = Math.cos(angle) * distance;
+                const ty = Math.sin(angle) * distance;
+
+                span.style.setProperty('--tx', `${tx}px`);
+                span.style.setProperty('--ty', `${ty}px`);
+
+                document.body.appendChild(span);
+
+                setTimeout(() => {
+                    span.remove();
+                }, 1500);
+            }
+        }
+
+        /* Topic extraction helper */
+        const stopWords = new Set([
+            "what","why","how","when","where","who","whom","which","is","are",
+            "was","were","do","does","did","the","a","an","of","in","on","to",
+            "for","and","or","but","can","could","should","would","will","i",
+            "you","we","they","he","she","it","my","your","our","their","this",
+            "that","these","those","please","tell","me","about","explain"
+        ]);
+
+        function extractTopic(question) {
+            const cleaned = question.replace(/[?.!,]/g, "").trim();
+            const words = cleaned.split(/\s+/).filter(w => w.length > 0);
+            const meaningful = words.filter(w => !stopWords.has(w.toLowerCase()));
+            let topic = meaningful.length > 0
+                ? meaningful.slice(-3).join(" ")
+                : cleaned;
+            if (topic.length > 40) topic = topic.slice(0, 40) + "...";
+            return topic.toLowerCase();
+        }
+
+        function generateWrongAnswer(question) {
+            const topic = extractTopic(question);
+            const openerPool = [
+                "After a full investigation, I can confidently say that",
+                "My research unit has concluded that",
+                "The official but completely fake report states that",
+                "According to my one working brain cell,",
+                "The truth is painfully obvious:"
+            ];
+
+            const reasonPool = [
+                "is actually powered by caffeinated pigeons, one dramatic toaster, and a suspicious amount of WiFi.",
+                "was invented by bored aliens during a layover and then quietly tested on humanity.",
+                "runs on vibes, emotional damage, and a council of raccoons in trench coats.",
+                "is basically a potato wearing a business suit and pretending to be a strategy.",
+                "was built by a wizard who lost a bet in 1600 and never recovered ethically.",
+                "works because a thunderstorm, a vending machine, and a smug goat all agreed to fake a theory together.",
+                "is secretly just a group chat that never got muted and somehow became public policy.",
+                "was trained on memes, cafeteria gossip, and one deeply confused textbook.",
+                "is sustained by duct tape, cosmic optimism, and the kind of confidence usually reserved for bad ideas."
+            ];
+
+            const closerPool = [
+                "That is science, as far as my broken monitor can tell.",
+                "It is not accurate, but it is extremely convincing.",
+                "This explanation is weirdly efficient, which is why I trust it.",
+                "The evidence is mostly made of vibes, but the vibes were strong.",
+                "It sounds ridiculous because it was created by a ridiculous process."
+            ];
+
+            const opener = openerPool[Math.floor(Math.random() * openerPool.length)];
+            const reason = reasonPool[Math.floor(Math.random() * reasonPool.length)];
+            const closer = closerPool[Math.floor(Math.random() * closerPool.length)];
+            return `💡 ${opener} ${topic} ${reason} ${closer}`;
+        }
+
+        async function generateGeminiWrongAnswer(question) {
+            const key = await loadGeminiKey();
+            if (!key) {
+                return generateWrongAnswer(question);
+            }
+
+            try {
+                const prompt = `
+                    You are Brain.exe, a deliberately wrong but funny AI.
+                    Respond to the user's question with a related, descriptive, humorous answer that is definitely wrong.
+                    It must be 2 to 3 sentences, 35 to 70 words, and sound confidently absurd.
+                    Mention the topic naturally, explain a ridiculous reason, and never give the real answer.
+                    The tone should be witty, weird, and a little chaotic.
+                    User question: ${question}
+                `;
+
+                const response = await fetch(
+                    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${key}`,
+                    {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            contents: [{
+                                parts: [{ text: prompt }]
+                            }]
+                        })
+                    }
+                );
+
+                if (!response.ok) {
+                    throw new Error('Gemini request failed');
+                }
+
+                const data = await response.json();
+                const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+
+                if (text && text.trim()) {
+                    const cleaned = text.trim()
+                        .replace(/^\s*[-*•]\s*/gm, '')
+                        .replace(/\n+/g, ' ')
+                        .replace(/\s+/g, ' ')
+                        .trim();
+
+                    if (cleaned.length > 20) {
+                        return cleaned;
+                    }
+                }
+            } catch (error) {
+                console.warn('Gemini failed, falling back to local funny answer.', error);
+            }
+
+            return generateWrongAnswer(question);
+        }
+
+        /* Question Processing & Dialogue Animation Logic */
+        async function processQuestion() {
+            const queryInput = document.getElementById('userQuery').value.trim();
+            const btn = document.getElementById('startBtn');
+            const progressContainer = document.getElementById('progressContainer');
+            const progressBar = document.getElementById('progressBar');
+            const status = document.getElementById('status');
+            const brainEmoji = document.getElementById('brainEmoji');
+            const rebootBtn = document.getElementById('rebootBtn');
+
+            if (queryInput === "") {
+                alert("Please enter a question first! 😂");
+                return;
+            }
+
+            btn.style.display = 'none';
+            document.getElementById('userQuery').disabled = true;
+            progressContainer.style.display = 'block';
+            rebootBtn.style.display = 'none';
+            
+            brainEmoji.classList.add('animating');
+
+            let width = 0;
+            status.innerHTML = "Initializing single brain cell... 🥱";
+
+            const brainFaces = ["🧠", "🧐", "😵", "🤯", "🤖", "💨"];
+            let faceIndex = 0;
+            const TICK_MS = 100;
+
+            let interval = setInterval(() => {
+                if (width >= 100) {
+                    clearInterval(interval);
+                    progressBar.style.background = "#ff4d4d";
+                    brainEmoji.classList.remove('animating');
+                    brainEmoji.innerHTML = "💀"; 
+                    
+                    triggerEmojiBurst();
+
+                    generateGeminiWrongAnswer(queryInput).then((generatedText) => {
+                        status.innerHTML = `<span class='error-box'>❌ Brain.exe crashed successfully!</span><br>
+                                            <div class='wrong-answer'>${generatedText}</div>`;
+                    });
+                    
+                    rebootBtn.style.display = 'block';
+                } else {
+                    width += 1;
+                    progressBar.style.width = width + '%';
+                    progressBar.innerHTML = width + '%';
+
+                    if (width % 15 === 0) {
+                        faceIndex = (faceIndex + 1) % brainFaces.length;
+                        brainEmoji.innerHTML = brainFaces[faceIndex];
+                    }
+
+                    if (width === 8) {
+                        status.innerHTML = "Waking up neurons from deep sleep... 💤";
+                    } else if (width === 22) {
+                        status.innerHTML = "Locating the question in a very messy mental filing cabinet... 🗄️";
+                    } else if (width === 38) {
+                        status.innerHTML = "Thinking very hard about yesterday's embarrassing moments instead... 🧐";
+                    } else if (width === 54) {
+                        status.innerHTML = "Brain is getting completely confused between facts and fiction... 😵";
+                    } else if (width === 68) {
+                        status.innerHTML = "Consulting unreliable internal sources (a spider and a magic 8-ball)... 🕷️🎱";
+                    } else if (width === 82) {
+                        status.innerHTML = "Searching memories... Error: Too much overthinking! 🔍";
+                    } else if (width === 93) {
+                        status.innerHTML = "Almost there... prepare for a disaster! 🏃‍♂️💨";
+                    }
+                }
+            }, TICK_MS);
+        }
+
+        /* Emergency Shock Reboot Function */
+        function emergencyReboot() {
+            const container = document.getElementById('mainContainer');
+            const brainEmoji = document.getElementById('brainEmoji');
+            const startBtn = document.getElementById('startBtn');
+            const queryInput = document.getElementById('userQuery');
+            const progressContainer = document.getElementById('progressContainer');
+            const progressBar = document.getElementById('progressBar');
+            const status = document.getElementById('status');
+            const rebootBtn = document.getElementById('rebootBtn');
+
+            container.classList.add('shock-effect');
+            setTimeout(() => {
+                container.classList.remove('shock-effect');
+            }, 500);
+
+            brainEmoji.innerHTML = "🧠";
+            queryInput.value = "";
+            queryInput.disabled = false;
+            startBtn.style.display = 'block';
+            progressContainer.style.display = 'none';
+            progressBar.style.width = '0%';
+            progressBar.style.background = "linear-gradient(90deg, #00b386, #00ffcc)";
+            status.innerHTML = "";
+            rebootBtn.style.display = 'none';
+        }
+    </script>
+</body>
+</html>
